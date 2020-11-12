@@ -1,0 +1,18 @@
+# Image snapshot diff files for [chore/fix-intermittent-test-failure](https://github.com/brightsitesconsulting/indy-pwamp/pull/1377)
+
+## Updated snapshots
+- [section-es--default-section-story](./section-es--default-section-story)
+- [section-es--lifestyle-section-story](./section-es--lifestyle-section-story)
+- [section-es--voices-section-story](./section-es--voices-section-story)
+- [section-es-page--default-section-story](./section-es-page--default-section-story)
+- [section-ru--default-section-story](./section-ru--default-section-story)
+- [section-ru--lifestyle-section-story](./section-ru--lifestyle-section-story)
+- [section-ru--voices-section-story](./section-ru--voices-section-story)
+- [section-ru-page--default-section-story](./section-ru-page--default-section-story)
+- [section-uk--ad-replacement-section-story](./section-uk--ad-replacement-section-story)
+- [section-uk--commercial-section-story](./section-uk--commercial-section-story)
+- [section-uk--default-section-story](./section-uk--default-section-story)
+- [section-uk--disable-all-slots-section-story](./section-uk--disable-all-slots-section-story)
+- [section-uk--indy-best-section-story](./section-uk--indy-best-section-story)
+- [section-uk--premium-section-story](./section-uk--premium-section-story)
+- [section-uk-page--default-section-story](./section-uk-page--default-section-story)
