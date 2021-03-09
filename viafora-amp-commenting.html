@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Viafoura AMP Comments Demo</title>
+  </head>
+  <body>
+    /* The `amp-widget` attribute is requied */
+    <div class="viafoura">
+      <vf-conversations amp-widget></vf-conversations>
+    </div>
+
+    <div class="viafoura">
+      <vf-tray class="vf-amp-tray vf-tray--modal-override"></vf-tray>
+    </div>
+    <script>
+      // calculate the data path based on the window query string
+      const queryString = window.location.search.substring(1);
+      const getQueryStringParam = (key) =>
+        decodeURIComponent(
+          (queryString.match(new RegExp(key + '=([^&]*)')) || [])[1] || '',
+        );
+
+      const path = getQueryStringParam('path');
+      const uniqueId = getQueryStringParam('uniqueId');
+      const title = getQueryStringParam('title');
+
+      // Set the path, unique id, and title meta tags on the head
+      const head = document.head;
+
+      if (path) {
+        const urlMetaTag = document.createElement('meta');
+        urlMetaTag.setAttribute('property', 'og:url');
+        urlMetaTag.setAttribute('content', window.location.origin + path);
+        head.appendChild(urlMetaTag);
+      }
+
+      if (uniqueId) {
+        const uniqueIdMetaTag = document.createElement('meta');
+        uniqueIdMetaTag.setAttribute('property', 'vf:unique_id');
+        uniqueIdMetaTag.setAttribute('content', uniqueId);
+        head.appendChild(uniqueIdMetaTag);
+      }
+
+      if (title) {
+        const titleTag = document.querySelector('title');
+        titleTag.textContent = title;
+      }
+
+      // inject vf js so we can guarantee the meta tags are set before viafoura runs
+      const vfjs = document.createElement('script');
+      vfjs.setAttribute('type', 'text/javascript');
+      vfjs.setAttribute('async', true);
+      vfjs.setAttribute('src', '//cdn.viafoura.net/vf-v2.js');
+      document.getElementsByTagName('script')[0].insertBefore(vfjs, null);
+      // Listen for commenting resize events and then bubble that event up that event to the amp-iframe to resize it
+      // And throttle the resize since comments rerender and resize themselves frequently
+      window.vfQ = window.vfQ || [];
+      vfQ.push(() => {
+        let locked = false;
+        vf.$subscribe('commenting', 'resized', () => {
+          if (!locked) {
+            locked = true;
+            setTimeout(() => {
+              locked = false;
+              // V3 widgets
+              const height =
+                document.querySelector('.vf3-comments').clientHeight + 100;
+              window.parent.postMessage(
+                {
+                  sentinel: 'amp',
+                  type: 'embed-size',
+                  height: height,
+                },
+                '*',
+              );
+            }, 50);
+          }
+        });
+
+        vf.$publish('widgets', 'mount');
+      });
+    </script>
+  </body>
+</html>
